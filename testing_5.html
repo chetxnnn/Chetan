@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover India - A Professional Travel Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: linear-gradient(135deg, #F8F9FA 0%, #e3e6ff 100%);
+            --text-color: #212529;
+            --primary-color: #8A2BE2; /* Royal Violet */
+            --secondary-color: #D4AF37; /* Gold Accent */
+            --accent-pink: #FF6F91;
+            --accent-blue: #5F9DF7;
+            --accent-green: #43E97B;
+            --accent-orange: #FFB86F;
+            --accent-yellow: #FFE156;
+            --card-bg: linear-gradient(120deg, #ffffff 60%, #f3eaff 100%);
+            --section-bg: linear-gradient(120deg, #e3e6ff 0%, #fffbe6 100%);
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+            --shadow-hover: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background: var(--bg-color);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 1.6rem;
+            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav-center { display: flex; align-items: center; gap: 2rem; }
+        .nav-links { display: flex; list-style: none; gap: 1.8rem; }
+        .nav-links a { color: var(--text-color); text-decoration: none; font-weight: 600; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--primary-color); text-shadow: 0 2px 8px var(--primary-color, #5f2eea33); }
+        .search-bar input { padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid #ced4da; font-size: 0.9rem; width: 250px; transition: all 0.3s ease; }
+        .search-bar input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1); }
+        .auth-buttons { display: flex; gap: 1rem; }
+
+        .btn {
+          padding: 0.7rem 2rem;
+          border-radius: 50px;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(.4,0,.2,1);
+          font-weight: 700;
+          font-family: 'Montserrat', 'Inter', sans-serif;
+          border: 2px solid transparent;
+          text-decoration: none;
+          font-size: 1.08rem;
+          letter-spacing: 0.5px;
+          box-shadow: 0 2px 8px rgba(95,46,234,0.08);
+        }
+        
+        .btn-outline {
+         border-color: var(--primary-color);
+         color: var(--primary-color);
+         background: transparent;
+         font-family: 'Montserrat', 'Inter', sans-serif;
+         font-weight: 700;
+        }
+        
+        .btn-outline:hover { background: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(138, 43, 226, 0.2); }
+    .btn-primary { background-image: linear-gradient(45deg, var(--primary-color) 0%, #A020F0 100%); color: white; border: none; font-family: 'Montserrat', 'Inter', sans-serif; font-weight: 700; box-shadow: 0 2px 8px rgba(95,46,234,0.12); }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(95,46,234,0.22); filter: brightness(1.08); }
+
+        /* Page Container */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* Hero Section */
+        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+        #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 1; object-fit: cover; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; }
+        .hero h1 { font-size: 4.5rem; font-weight: 800; margin-bottom: 1rem; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.5); animation: slideUpIn 1s ease-out forwards; }
+        .hero p { font-size: 1.4rem; margin-bottom: 2rem; color: #fff; opacity: 0; animation: slideUpIn 1s ease-out 0.3s forwards; }
+
+        /* Sections */
+        section { padding: 6rem 0; }
+        .section-title { text-align: center; font-size: 3rem; font-weight: 800; margin-bottom: 4rem; color: var(--text-color); }
+        .section-subtitle { text-align: center; max-width: 600px; margin: -3rem auto 4rem; font-size: 1.1rem; color: #6c757d; }
+
+        .destinations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+
+        .attraction-card {
+          border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.4s cubic-bezier(.4,0,.2,1); cursor: pointer; position: relative;
+          color: white; min-height: 350px; display: flex; flex-direction: column; justify-content: flex-end;
+          background: linear-gradient(120deg, var(--primary-color) 0%, var(--accent-pink) 40%, var(--accent-blue) 80%, var(--accent-green) 100%);
+          font-family: 'Montserrat', 'Inter', sans-serif;
+        }
+        
+        .attraction-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+        .attraction-card .card-bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: transform 0.4s ease; }
+        .attraction-card:hover .card-bg-image { transform: scale(1.1); }
+        .attraction-card .card-content { position: relative; z-index: 2; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
+        .attraction-card h3 { font-size: 1.8rem; margin-bottom: 0.5rem; font-weight: 700; }
+    .attraction-card p { font-size: 1.08rem; font-family: 'Inter', 'Montserrat', sans-serif; color: #f3eaff; letter-spacing: 0.2px; }
+        
+        /* New Itinerary Section */
+        #itinerary-planner { background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); color: white; }
+        #itinerary-planner .section-title { color: white; }
+        .planner-form {
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.5rem;
+            background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; max-width: 800px; margin: 0 auto;
+        }
+        .planner-group { flex: 1; min-width: 200px; }
+        .planner-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .planner-group select { width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-size: 1rem; }
+        
+        /* Culture Section */
+        .culture-section { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem; }
+        .culture-section img { width: 100%; border-radius: 15px; box-shadow: var(--shadow-hover); }
+
+        /* Testimonials */
+        .testimonial-card { background: var(--card-bg); padding: 2.5rem; border-radius: 15px; box-shadow: var(--shadow); border-left: 5px solid var(--primary-color); }
+    .testimonial-card p { font-style: italic; font-size: 1.13rem; font-family: 'Montserrat', 'Inter', sans-serif; color: #5f2eea; }
+    .testimonial-card .author { font-weight: bold; color: var(--primary-color); margin-top: 1rem; text-align: right; font-family: 'Montserrat', 'Inter', sans-serif; letter-spacing: 0.5px; }
+        
+        /* Auth Pages */
+        .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #e9ecef; animation: fadeIn 0.5s ease; }
+        .auth-form { background: white; padding: 3rem; border-radius: 15px; box-shadow: var(--shadow-hover); width: 100%; max-width: 420px; }
+        .auth-form h2 { text-align: center; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500;}
+        .form-group input { width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ced4da; font-size: 1rem; }
+        .auth-form .btn { width: 100%; padding: 0.8rem; }
+        .auth-switch { text-align: center; margin-top: 1.5rem; }
+        .auth-switch a { color: var(--primary-color); text-decoration: none; font-weight: 500;}
+        
+        /* Destination Page */
+        .destination-hero { height: 60vh; position: relative; display: flex; align-items: center; justify-content: center; color: white; text-align: center; animation: fadeIn 1s ease; }
+        .destination-hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); }
+        .destination-hero-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+        .destination-hero-content { position: relative; }
+        .destination-hero h1 { font-size: 4rem; font-weight: 800; }
+        .destination-content { background: #fff; padding: 4rem 0; }
+        .destination-details { max-width: 800px; margin: 0 auto; }
+        .destination-details h2 { font-size: 2.2rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 3px solid var(--primary-color); padding-bottom: 0.5rem; display: inline-block; }
+        .destination-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+        .destination-gallery img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; transition: transform 0.3s ease; box-shadow: var(--shadow); }
+        .destination-gallery img:hover { transform: scale(1.05); }
+
+        /* Footer */
+        footer { padding: 4rem 0; text-align: center; background: #212529; color: #fff; }
+        .footer-content { max-width: 600px; margin: 0 auto; }
+        .footer-content h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+        .newsletter-form { display: flex; justify-content: center; margin-top: 1.5rem; }
+        .newsletter-form input { padding: 0.8rem; border: none; border-radius: 50px 0 0 50px; width: 300px; }
+        .newsletter-form button { border-radius: 0 50px 50px 0; border: none; }
+
+        /* --- ANIMATIONS --- */
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+        .staggered-animation { opacity: 0; transform: translateY(20px); animation: slideUpIn 0.8s ease-out forwards; animation-delay: calc(var(--delay) * 150ms); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUpIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Loading Animation */
+        .loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
+        .loading.hidden { opacity: 0; pointer-events: none; }
+        .spinner { width: 40px; height: 40px; border: 3px solid #dee2e6; border-radius: 50%; border-top-color: var(--primary-color); animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        @media (max-width: 768px) {
+            .nav-center { display: none; }
+            .hero h1, .destination-hero h1 { font-size: 2.8rem; }
+            .culture-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading"><div class="spinner"></div></div>
+
+    <nav>
+        <div class="container nav-container">
+            <div class="logo"><a href="#" onclick="showPage('main-content')">Discover India</a></div>
+            <div class="nav-center">
+                 <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#attractions">Experiences</a></li>
+                    <li><a href="#culture">Culture</a></li>
+                    <li><a href="#tips">Travel Tips</a></li>
+                </ul>
+                 <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search (e.g., Goa)">
+                </div>
+            </div>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" onclick="showPage('login-page')">Login</button>
+                <button class="btn btn-primary" onclick="showPage('signup-page')">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="page active" id="main-content">
+        <section class="hero" id="home">
+            <video autoplay muted loop playsinline id="hero-video">
+                <source src="photos/video1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-content"><h1>Your Journey Begins Here</h1><p>Discover the soul of India, a land of vibrant cultures and timeless wonders.</p></div>
+        </section>
+
+        <section id="why-india">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Why Choose India?</h2>
+                <p class="section-subtitle animate-on-scroll">A land of dramatic contrasts and breathtaking beauty, India offers a unique travel experience that caters to every desire, from serene spiritual retreats to thrilling adventures.</p>
+                <div class="destinations-grid">
+                    <div class="attraction-card animate-on-scroll"><img src="photos/himalays.avif" class="card-bg-image"><div class="card-content"><h3>Incredible Diversity</h3><p>From snow-capped Himalayas to tropical beaches.</p></div></div>
+                    <div class="attraction-card animate-on-scroll" style="transition-delay: 100ms;"><img src="photos/ancient-indian-history-870x570.jpg" class="card-bg-image"><div class="card-content"><h3>Rich History</h3><p>Explore ancient temples, majestic forts, and palaces.</p></div></div>
+                    <div class="attraction-card animate-on-scroll" style="transition-delay: 200ms;"><img src="photos/yoga.jpg" class="card-bg-image"><div class="card-content"><h3>Spiritual Heart</h3><p>Offering yoga retreats, meditation, and sacred sites.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="attractions" style="background: var(--card-bg);">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Signature Experiences</h2>
+                <div class="destinations-grid">
+                    <div class="attraction-card animate-on-scroll" onclick="performSearch('Agra')"><img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=400&q=80" class="card-bg-image"><div class="card-content"><h3>Agra</h3><p>The city of the Taj Mahal.</p></div></div>
+                    <div class="attraction-card animate-on-scroll" onclick="performSearch('Jaipur')" style="transition-delay: 100ms;"><img src="photos/best-place-to-visit-in-jaipur.jpg" class="card-bg-image"><div class="card-content"><h3>Jaipur</h3><p>The vibrant "Pink City".</p></div></div>
+                    <div class="attraction-card animate-on-scroll" onclick="performSearch('Kerala')" style="transition-delay: 200ms;"><img src="photos/s1180x560.jpg" class="card-bg-image"><div class="card-content"><h3>Kerala</h3><p>God's Own Country.</p></div></div>
+                    <div class="attraction-card animate-on-scroll" onclick="performSearch('Goa')" style="transition-delay: 300ms;"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=400&q=80" class="card-bg-image"><div class="card-content"><h3>Goa</h3><p>The Pearl of the Orient.</p></div></div>
+                    <div class="attraction-card animate-on-scroll" onclick="performSearch('Himalayas')" style="transition-delay: 400ms;"><img src="photos/GettyRF_450207051.jpg" class="card-bg-image"><div class="card-content"><h3>Himalayan Vistas</h3><p>Retreat to the Mountains.</p></div></div>
+                    <div class="attraction-card animate-on-scroll" onclick="performSearch('Delhi')" style="transition-delay: 200ms;"><img src="photos/delhi-itinerary-india-gate-sunset-new-delhi.webp" class="card-bg-image"><div class="card-content"><h3>Delhi</h3><p>capital.</p></div></div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="itinerary-planner">
+            <div class="container animate-on-scroll">
+                <h2 class="section-title">Plan Your Adventure</h2>
+                <div class="planner-form">
+                    <div class="planner-group">
+                        <label for="interest">What's Your Interest?</label>
+                        <select id="interest">
+                            <option>History & Culture</option>
+                            <option>Adventure & Nature</option>
+                            <option>Spiritual & Wellness</option>
+                            <option>Beaches & Relaxation</option>
+                        </select>
+                    </div>
+                    <div class="planner-group">
+                        <label for="duration">How Long Is Your Trip?</label>
+                        <select id="duration">
+                            <option>3-5 Days</option>
+                            <option>7-10 Days</option>
+                            <option>14+ Days</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" style="align-self: flex-end;">Suggest a Trip</button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="culture">
+            <div class="container culture-section animate-on-scroll">
+                <div>
+                    <h2>Vibrant Culture & Traditions</h2>
+                    <p>Indian culture is a rich tapestry of traditions, languages, and festivals. Every region has its own unique customs, art forms, and culinary delights. From the colorful celebrations of Holi and Diwali to the classical dance forms like Bharatanatyam and Kathakali, India offers a cultural immersion like no other. Be sure to savor the diverse cuisine, which varies dramatically from state to state.</p>
+                </div>
+                <img src="photos/Experience-The-Vibrant-Fusion-Of-Tradition-And-Modernization-In-Amaravati.jpg" alt="Cultural festival in India">
+            </div>
+        </section>
+        
+        <section id="tips" style="background: var(--card-bg);">
+            <div class="container">
+                 <h2 class="section-title animate-on-scroll">Essential Travel Tips</h2>
+                 <div class="destinations-grid">
+                     <div class="attraction-card animate-on-scroll"><img src="photos/Places-to-Visit-in-March_600.jpg_cf-webp_w-450_h-240" class="card-bg-image"><div class="card-content"><h3>Best Time to Visit</h3><p>October to March is ideal for most of India's plains and beaches.</p></div></div>
+                     <div class="attraction-card animate-on-scroll" style="transition-delay:100ms"><img src="photos/pack.webp" class="card-bg-image"><div class="card-content"><h3>What to Pack</h3><p>Light clothes, a scarf, comfortable shoes, and a universal adapter are key.</p></div></div>
+                     <div class="attraction-card animate-on-scroll" style="transition-delay:200ms"><img src="photos/visa.webp" class="card-bg-image"><div class="card-content"><h3>Visa & Currency</h3><p>Most foreign nationals require an e-visa. The currency is the Indian Rupee (INR).</p></div></div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+             <div class="container">
+                <h2 class="section-title animate-on-scroll">What Our Travelers Say</h2>
+                <div class="destinations-grid">
+                    <div class="testimonial-card animate-on-scroll"><p>"An absolutely mesmerizing trip! The diversity of India is something you have to see to believe."</p><div class="author">- Alex, USA</div></div>
+                    <div class="testimonial-card animate-on-scroll" style="transition-delay:100ms"><p>"The food, the people, the history... everything was incredible. Can't wait to come back and explore more."</p><div class="author">- Maria, Spain</div></div>
+                    <div class="testimonial-card animate-on-scroll" style="transition-delay:200ms"><p>"A life-changing experience. The spiritual energy in places like Varanasi is palpable. Highly recommended."</p><div class="author">- Kenji, Japan</div></div>
+                </div>
+             </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <h3>Join Our Newsletter</h3>
+                <p>Get the latest travel tips, deals, and inspiration delivered straight to your inbox.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button class="btn btn-primary">Subscribe</button>
+                </div>
+            </div>
+            <p style="margin-top: 3rem; font-size: 0.9rem;">&copy; 2025 Discover India. All Rights Reserved.</p>
+        </footer>
+    </div>
+    
+    <!-- Destination Detail Page -->
+    <div class="page" id="destination-page"></div>
+
+    <!-- Auth Pages -->
+    <div class="page" id="login-page">
+        <div class="auth-page">
+            <div class="auth-form">
+                <h2>Welcome Back</h2>
+                <form onsubmit="event.preventDefault(); alert('Login functionality placeholder.');">
+                    <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" required></div>
+                    <div class="form-group"><label for="password">Password</label><input type="password" id="password" required></div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <div class="auth-switch"><p>No account? <a href="#" onclick="showPage('signup-page')">Sign up</a> | <a href="#" onclick="showPage('main-content')">Back to Home</a></p></div>
+            </div>
+        </div>
+    </div>
+    <div class="page" id="signup-page">
+         <div class="auth-page">
+            <div class="auth-form">
+                <h2>Create Your Account</h2>
+                <form onsubmit="event.preventDefault(); alert('Signup functionality placeholder.');">
+                    <div class="form-group"><label for="fullname">Full Name</label><input type="text" id="fullname" required></div>
+                    <div class="form-group"><label for="email-signup">Email Address</label><input type="email" id="email-signup" required></div>
+                    <div class="form-group"><label for="password-signup">Password</label><input type="password" id="password-signup" required></div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+                <div class="auth-switch"><p>Already have an account? <a href="#" onclick="showPage('login-page')">Login</a> | <a href="#" onclick="showPage('main-content')">Back to Home</a></p></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // --- DATA STORE ---
+        const tourData = {
+            "agra": {
+                title: "Agra", subtitle: "The City of the Taj",
+                heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+                gallery: ["https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1570752331042-205e4a387431?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1573453813635-06c5a0a1639d?auto=format&fit=crop&w=400&q=80"],
+                introduction: "Welcome to Agra, a city that tells tales of love, loss, and architectural genius. Once the heart of the Mughal Empire, Agra is globally renowned for the Taj Mahal, a monument that is not just an architectural marvel, but an eternal symbol of love.",
+                attractions: [{ name: "Taj Mahal", desc: "The ivory-white marble mausoleum, a UNESCO World Heritage site." }, { name: "Agra Fort", desc: "A colossal red sandstone fort that served as the main residence of the Mughal emperors." }, { name: "Mehtab Bagh", desc: "A garden complex offering a stunning, symmetrical view of the Taj Mahal at sunset." },],
+                culture: "Respect is key in Agra. Dress modestly when visiting religious sites. A simple 'Namaste' (a greeting with folded hands) will be warmly received.",
+                bestTime: "The best time to visit is from October to March, when the weather is cool and pleasant, perfect for sightseeing.",
+                conclusion: "Agra is more than just a city; it's an experience that transports you to a bygone era of emperors and romance."
+            },
+            "jaipur": {
+                title: "Jaipur", subtitle: "The Pink City",
+                heroImage: "https://images.unsplash.com/photo-1603261643216-f737520e7428?auto=format&fit=crop&w=1200&q=80",
+                gallery: ["https://images.unsplash.com/photo-1557690756-62754e202496?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1599661046223-e0658853633a?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1549992313-243460515152?auto=format&fit=crop&w=400&q=80"],
+                introduction: "Jaipur, the capital of Rajasthan, is a city of vibrant colors, majestic forts, and bustling bazaars. Known as the 'Pink City' for its distinctively colored buildings, Jaipur is a perfect blend of royal heritage and modern culture.",
+                attractions: [{ name: "Hawa Mahal", desc: "The 'Palace of Winds,' an iconic five-story pink sandstone facade with 953 windows." }, { name: "Amber Fort", desc: "A magnificent fort-palace overlooking Maota Lake, known for its artistic Hindu-style elements." }, { name: "City Palace", desc: "A grand complex of courtyards, gardens, and buildings blending Rajasthani and Mughal architecture." },],
+                culture: "Jaipur's culture is rich with traditional arts and crafts. Explore the local markets for beautiful textiles, pottery, and jewelry.",
+                bestTime: "Visit between October and March. The weather is cool and ideal for exploring the city's many attractions.",
+                conclusion: "With its royal past and lively present, Jaipur promises an unforgettable adventure."
+            },
+            "kerala": {
+                title: "Kerala", subtitle: "God's Own Country",
+                heroImage: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=80",
+                gallery: ["https://images.unsplash.com/photo-1523359193496-b675f0a1d489?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1593693397649-65d2a403d125?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1579751626652-5956795b5275?auto=format&fit=crop&w=400&q=80"],
+                introduction: "Welcome to Kerala, a slice of tropical paradise. Famous for its palm-lined beaches, serene backwaters, and sprawling tea plantations, Kerala offers a tranquil escape into nature's lap.",
+                attractions: [{ name: "Alleppey Backwaters", desc: "Cruise through the tranquil network of lakes and canals on a traditional houseboat." }, { name: "Munnar Tea Gardens", desc: "Walk through endless stretches of lush green tea plantations and visit a tea museum." }, { name: "Fort Kochi", desc: "A charming coastal area known for its colonial architecture and iconic Chinese Fishing Nets." },],
+                culture: "Kerala is known for unique art forms like Kathakali. The local cuisine, rich in coconut and spices, is a must-try.",
+                bestTime: "The period from September to March is ideal, offering pleasant weather for exploring beaches and backwaters.",
+                conclusion: "Kerala's serene beauty and rich cultural tapestry provide a refreshing and rejuvenating experience."
+            },
+            "goa": {
+                title: "Goa", subtitle: "The Pearl of the Orient",
+                heroImage: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80",
+                gallery: ["https://images.unsplash.com/photo-1536420127960-10b925b206f6?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1570242759699-a03c2a635814?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1574229971165-4a68297353f8?auto=format&fit=crop&w=400&q=80"],
+                introduction: "Goa is India's pocket-sized paradise, a coastal state known for its endless beaches, vibrant nightlife, laid-back atmosphere, and unique blend of Indian and Portuguese cultures. From sunbathing on golden sands to exploring colonial churches, Goa has something for everyone.",
+                attractions: [{ name: "Palolem Beach", desc: "A picturesque crescent-shaped beach known for its calm waters and vibrant beach huts." }, { name: "Old Goa (Velha Goa)", desc: "A UNESCO World Heritage site featuring magnificent colonial-era churches like the Basilica of Bom Jesus." }, { name: "Dudhsagar Falls", desc: "A majestic four-tiered waterfall located on the Mandovi River, a spectacular sight in the monsoon." },],
+                culture: "Goan culture is a unique fusion of Konkani and Portuguese influences. The cuisine is famous for its seafood and spicy Vindaloo. Don't miss the flea markets at Anjuna and Mapusa.",
+                bestTime: "The best time to visit is from November to February when the weather is cool and dry. The monsoon season (June-September) is lush and green but with fewer beach activities.",
+                conclusion: "Whether you're seeking relaxation or adventure, Goa's susegad (laid-back) lifestyle and scenic beauty will capture your heart."
+            },
+            "himalayas": {
+                title: "Himalayan Vistas", subtitle: "Retreat to the Mountains",
+                heroImage: "https://images.unsplash.com/photo-1617653292511-b8403358d343?auto=format&fit=crop&w=1200&q=80",
+                gallery: ["https://images.unsplash.com/photo-1588925434159-4a34b2138723?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1559524955-c49a65397554?auto=format&fit=crop&w=400&q=80", "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=400&q=80"],
+                introduction: "Escape to the majestic Himalayas, a realm of serene beauty, towering peaks, and spiritual tranquility. From the charming hill station of Shimla to the adventurous terrains of Ladakh, the Indian Himalayas offer a breathtaking retreat from the hustle of city life.",
+                attractions: [{ name: "The Ridge, Shimla", desc: "The hub of all cultural activities in Shimla, offering stunning views of the mountain ranges." }, { name: "Monasteries of Ladakh", desc: "Explore ancient Buddhist monasteries perched on hilltops, such as Thiksey and Hemis." }, { name: "Trekking & Adventure", desc: "Embark on world-class treks, river rafting, and mountaineering expeditions." },],
+                culture: "The Himalayan region is a mosaic of cultures, predominantly influenced by Tibetan Buddhism and Hinduism. The people are known for their warm hospitality. Experience the simple, peaceful mountain life.",
+                bestTime: "The summer months from April to June are perfect for visiting most hill stations. For snow lovers, December to February is ideal.",
+                conclusion: "The Himalayas are not just a destination, but a journey of self-discovery amidst the grandest landscapes on Earth."
+            }
+        };
+
+        // --- UI LOGIC ---
+        const searchInput = document.getElementById('searchInput');
+
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('loading').classList.add('hidden'), 500);
+        });
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const pageToShow = document.getElementById(pageId);
+            if(pageToShow) {
+                pageToShow.classList.add('active');
+            }
+            window.scrollTo(0, 0);
+        }
+        
+        searchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                performSearch(searchInput.value);
+            }
+        });
+
+        function performSearch(query) {
+            const normalizedQuery = query.trim().toLowerCase();
+            const data = tourData[normalizedQuery];
+            
+            if (data) {
+                displayDestination(data);
+            } else {
+                displayNotFound();
+            }
+        }
+
+        function displayDestination(data) {
+             const destinationPage = document.getElementById('destination-page');
+             destinationPage.innerHTML = `
+                <header class="destination-hero"><img src="${data.heroImage}" class="destination-hero-img"><div class="destination-hero-content"><h1 class="staggered-animation" style="--delay: 1;">${data.title}</h1><p class="staggered-animation" style="--delay: 2;">${data.subtitle}</p></div></header>
+                <div class="destination-content"><div class="container destination-details">
+                    <p class="staggered-animation" style="--delay: 3;">${data.introduction}</p>
+                    <h2 class="staggered-animation" style="--delay: 4;">Photo Gallery</h2>
+                    <div class="destination-gallery">${data.gallery.map((img, i) => `<img src="${img}" alt="${data.title} gallery image" class="staggered-animation" style="--delay: ${5+i};">`).join('')}</div>
+                    <h2 class="staggered-animation" style="--delay: 8;">Top Attractions</h2>
+                    <ul class="staggered-animation" style="--delay: 9;">${data.attractions.map(att => `<li><strong>${att.name}:</strong> ${att.desc}</li>`).join('')}</ul>
+                    <div class="staggered-animation" style="--delay: 10;"><h2>Cultural Insights</h2><p>${data.culture}</p></div>
+                    <div class="staggered-animation" style="--delay: 11;"><h2>Best Time to Visit</h2><p>${data.bestTime}</p></div>
+                    <div class="conclusion staggered-animation" style="--delay: 12; margin-top:2rem"><p>${data.conclusion}</p></div>
+                    <div class="back-button-container staggered-animation" style="--delay: 13;"><button class="btn btn-primary" onclick="showPage('main-content')">Back to All Destinations</button></div>
+                </div></div>`;
+            showPage('destination-page');
+        }
+        
+        function displayNotFound() {
+             const destinationPage = document.getElementById('destination-page');
+             destinationPage.innerHTML = `
+                 <header class="destination-hero"><div class="destination-hero-content"><h1>Not Found</h1></div></header>
+                 <div class="destination-content"><div class="container destination-details" style="text-align:center;">
+                    <p>Sorry, we couldn't find any information for that destination. Please try searching for Agra, Jaipur, Kerala, Goa, or Himalayas.</p>
+                    <div class="back-button-container"><button class="btn btn-primary" onclick="showPage('main-content')">Back Home</button></div>
+                 </div></div>`;
+            showPage('destination-page');
+        }
+        
+        // On-scroll animation observer
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+        elementsToAnimate.forEach((el) => scrollObserver.observe(el));
+    </script>
+</body>
+</html>
+
